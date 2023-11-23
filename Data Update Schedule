@@ -1,0 +1,51 @@
+# Install kaggle
+# pip install kaggle
+
+import kaggle
+from kaggle.api.kaggle_api_extended import KaggleApi
+api = KaggleApi()
+api.authenticate()
+
+api.dataset_download_file('meraxes10/fantasy-premier-league-dataset-2023-2024',file_name='players.csv')
+
+# pip install schedule
+
+import schedule
+import time
+from kaggle.api.kaggle_api_extended import KaggleApi
+
+# Initialize Kaggle API
+api = KaggleApi()
+api.authenticate()
+
+
+# Function to download CSV
+def download_csv():
+    try:
+        api.dataset_download_file('meraxes10/fantasy-premier-league-dataset-2023-2024', file_name='players.csv',
+                                  path='.')
+        print("CSV file downloaded successfully.")
+    except Exception as e:
+        print(f"Error downloading CSV file: {e}")
+
+
+# Function to update periodically
+def update_periodically():
+    print("Script started.")
+
+    # Schedule the download job
+    schedule.every().day.at("02:00").do(download_csv)
+
+    # Run the scheduler once
+    schedule.run_all()
+
+    print("Script completed.")
+
+
+# Run the update_periodically function only if this script is the main script being executed
+if __name__ == "__main__":
+    update_periodically()
+
+# Run the update_periodically function only if this script is the main script being executed
+if __name__ == "__main__":
+    update_periodically()
